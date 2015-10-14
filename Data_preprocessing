@@ -1,0 +1,46 @@
+# -*- coding: utf-8 -*-
+"""
+Created on Tue Oct 13 21:55:44 2015
+
+@author: Evelyn
+"""
+
+import pandas as pd
+
+# manipulation on Structural Measures - Hospital.csv--to get provider ID and 7 Measure IDs
+SMH_df = pd.read_csv('Structural Measures - Hospital.csv')
+columns_SMH = ['Provider_ID','OP_12','OP_17','OP_25', \
+'SM_PART_CARD','SM_PART_GEN_SURG','SM_PART_NURSE','SM_PART_STROKE']
+provider_id = SMH_df["Provider ID"].unique()
+
+# manipulation on HCAHPS-HOSPITAL.CSV
+HH_df = pd.read_csv('HCAHPS - Hospital.csv')
+columns_HH = ['H_STAR_RATING', 'H_CLEAN_STAR_RATING', 'H_COMP_1_STAR_RATING', 'H_COMP_2_STAR_RATING',\
+  'H_COMP_3_STAR_RATING', 'H_COMP_4_STAR_RATING', 'H_COMP_5_STAR_RATING', 'H_COMP_6_STAR_RATING',\
+  'H_COMP_7_STAR_RATING', 'H_HSP_RATING_STAR_RATING', 'H_QUIET_STAR_RATING', 'H_RECMND_STAR_RATING']
+columns = columns_SMH + columns_HH
+
+#manipulation on Timely and Effective Care - Hospital.csv
+TECH_df = pd.read_csv('Timely and Effective Care - Hospital.csv')
+columns.extend(['AMI_10', 'AMI_2', 'AMI_7a', 'AMI_8a', \
+'ED_1b', 'ED_2b', 'EDV', 'HF_1', 'HF_2', 'HF_3', \
+'IMM_2', 'IMM_3_OP_27_FAC_ADHPCT', \
+'OP_1', 'OP_18b','OP_2', 'OP_20', 'OP_21', 'OP_22', 'OP_23', 'OP_3b',\
+ 'OP_4', 'OP_5', 'OP_6', 'OP_7', 'PC_01', 'PN_6', \
+ 'SCIP_CARD_2', 'SCIP_INF_1', 'SCIP_INF_10', 'SCIP_INF_2', 'SCIP_INF_3',\
+ 'SCIP_INF_9', 'SCIP_VTE_2', 'STK_1', 'STK_10', 'STK_2', 'STK_3', 'STK_4',\
+ 'STK_5', 'STK_6', 'STK_8', 'VTE_1', 'VTE_2', 'VTE_3', 'VTE_4', 'VTE_5', 'VTE_6'])
+
+# create new dataframe
+hospitals_df = pd.DataFrame(columns = columns)
+hospitals_df['Provider_ID'] = provider_id
+
+# assign "score" to Measure ID in hospitals_df
+
+
+
+
+
+
+
+
