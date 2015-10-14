@@ -6,12 +6,13 @@ Created on Tue Oct 13 21:55:44 2015
 """
 
 import pandas as pd
+import numpy as np
 
 # manipulation on Structural Measures - Hospital.csv--to get provider ID and 7 Measure IDs
 SMH_df = pd.read_csv('Structural Measures - Hospital.csv')
 columns_SMH = ['Provider_ID','OP_12','OP_17','OP_25', \
 'SM_PART_CARD','SM_PART_GEN_SURG','SM_PART_NURSE','SM_PART_STROKE']
-provider_id = SMH_df["Provider ID"].unique()
+#provider_id = SMH_df['Provider ID'].unique()# there are 4656 provider ID in this data set
 
 # manipulation on HCAHPS-HOSPITAL.CSV
 HH_df = pd.read_csv('HCAHPS - Hospital.csv')
@@ -22,25 +23,28 @@ columns = columns_SMH + columns_HH
 
 #manipulation on Timely and Effective Care - Hospital.csv
 TECH_df = pd.read_csv('Timely and Effective Care - Hospital.csv')
-columns.extend(['AMI_10', 'AMI_2', 'AMI_7a', 'AMI_8a', \
+provider_id = TECH_df['Provider ID'].unique() # there are 4785 provider ID in this data set
+
+columns_TECH = ['AMI_10', 'AMI_2', 'AMI_7a', 'AMI_8a', \
 'ED_1b', 'ED_2b', 'EDV', 'HF_1', 'HF_2', 'HF_3', \
 'IMM_2', 'IMM_3_OP_27_FAC_ADHPCT', \
 'OP_1', 'OP_18b','OP_2', 'OP_20', 'OP_21', 'OP_22', 'OP_23', 'OP_3b',\
  'OP_4', 'OP_5', 'OP_6', 'OP_7', 'PC_01', 'PN_6', \
  'SCIP_CARD_2', 'SCIP_INF_1', 'SCIP_INF_10', 'SCIP_INF_2', 'SCIP_INF_3',\
  'SCIP_INF_9', 'SCIP_VTE_2', 'STK_1', 'STK_10', 'STK_2', 'STK_3', 'STK_4',\
- 'STK_5', 'STK_6', 'STK_8', 'VTE_1', 'VTE_2', 'VTE_3', 'VTE_4', 'VTE_5', 'VTE_6'])
+ 'STK_5', 'STK_6', 'STK_8', 'VTE_1', 'VTE_2', 'VTE_3', 'VTE_4', 'VTE_5', 'VTE_6']
+columns.extend(columns_TECH)
 
 # create new dataframe
 hospitals_df = pd.DataFrame(columns = columns)
 hospitals_df['Provider_ID'] = provider_id
 
 # assign "score" to Measure ID in hospitals_df
-
-
-
-
-
-
-
-
+for i in provider_id:
+    print i
+    for j in columns_TECH:
+        print j
+        temp_score = TECH_df[(TECH_df['Provider ID'] == i) & (TECH_df['Measure ID'] == j)]['Score']
+        print temp_score
+        hospitals_df[hospitals_df['Provider_ID'] == i][j] = temp_score
+        
