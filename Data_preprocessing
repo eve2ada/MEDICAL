@@ -6,7 +6,7 @@ Created on Tue Oct 13 21:55:44 2015
 """
 
 import pandas as pd
-import numpy as np
+#import numpy as np
 
 # manipulation on Structural Measures - Hospital.csv--to get provider ID and 7 Measure IDs
 SMH_df = pd.read_csv('Structural Measures - Hospital.csv')
@@ -36,7 +36,7 @@ columns_TECH = ['AMI_10', 'AMI_2', 'AMI_7a', 'AMI_8a', \
 columns.extend(columns_TECH)
 
 # create new dataframe
-hospitals_df = pd.DataFrame(columns = columns)
+hospitals_df = pd.DataFrame(index = provider_id, columns = columns)
 hospitals_df['Provider_ID'] = provider_id
 
 # assign "score" to Measure ID in hospitals_df
@@ -46,5 +46,11 @@ for i in provider_id:
         print j
         temp_score = TECH_df[(TECH_df['Provider ID'] == i) & (TECH_df['Measure ID'] == j)]['Score']
         print temp_score
-        hospitals_df[hospitals_df['Provider_ID'] == i][j] = temp_score
-        
+        #hospitals_df[hospitals_df['Provider_ID'] == i][j] = temp_score
+        hospitals_df[j][i] = temp_score
+
+# manipulation on Hospital General Information.csv
+HGI_df = pd.read_csv('Hospital General Information.csv')
+providerID = HGI_df['Provider ID'].unique() # 4803 provider ID
+
+hospitals_df.to_csv('updated.csv')
